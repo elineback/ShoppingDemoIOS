@@ -1,0 +1,47 @@
+<html>
+<head>
+<script>
+
+    console = new Object();
+    console.log = function(log)
+    {
+        var iframe = document.createElement("IFRAME");
+        iframe.setAttribute("src", "ios-log:#iOS#" + log);
+        document.documentElement.appendChild(iframe);
+        iframe.parentNode.removeChild(iframe);
+        iframe = null;
+    }
+    console.debug = console.log;
+    console.info = console.log;
+    console.warn = console.log;
+    console.error = console.log;
+
+    (function (w) {
+try{
+                w.tm2BootPosition = 0;
+                w.tm2BootAsync = true;
+                w.tmPageId = [% pageid %];
+                w.tmParam = [% parameters %];
+        // do not change values below this line
+                var conf = { host: [% IF staging %]'[% urlstage %]'[% ELSE %]'[% urllive %]'[% END %],
+                                account: '[% clientidentifier %]',
+                                version: '3',
+                                async: w.tm2BootAsync,
+                                cdn: (location.protocol === 'https:' ? 'sec':'res') + '.levexis.com',
+                                param: w.tmParam || {} };
+                w.TMAN = w.TMAN || { startTime: + new Date,
+                                asyncLoader: function() { TMAN.addContainer( new TMAN.Container(conf.account, w.tmPageId, conf) ); }
+                };
+               document.write('<script src="http://' + conf.cdn + '/clientfiles/v' + conf.version + '/' + conf.account + '.js' + '"><\/script>');
+     console.log(" conf.host    : " + conf.host);
+     console.log(" conf.param   : " + conf.param);
+     console.log(" conf.cdn     : " + conf.cdn);
+     console.log(" conf.version : " + conf.version);
+     console.log(" conf.account : " + conf.account);
+} catch(er){}})(window);
+    
+</script>
+</head>
+<body>
+</body>
+</html>
