@@ -6,16 +6,16 @@
 
 #import "SDDatabaseUtils.h"
 
-#define TAGMAN_SITEID_DEFAULT    1
-#define TAGMAN_SITEID_CART       2
-#define TAGMAN_SITEID_CONVERSION 3
-#define TAGMAN_SITEID_PRODUCT    4
-#define TAGMAN_SITEID_CATEGORY   5
-#define TAGMAN_SITEID_CHECKOUT   6
-#define TAGMAN_SITEID_CONFIRM    7
-#define TAGMAN_SITEID_SEARCH     8
+#define TAGMAN_SITEID_DEFAULT    9
+#define TAGMAN_SITEID_CART       9
+#define TAGMAN_SITEID_CONVERSION 9
+#define TAGMAN_SITEID_PRODUCT    9
+#define TAGMAN_SITEID_CATEGORY   9
+#define TAGMAN_SITEID_CHECKOUT   9
+#define TAGMAN_SITEID_CONFIRM    9
+#define TAGMAN_SITEID_SEARCH     9
 
-#define TAGMAN_CLIENT_ID         @"clothing"
+#define TAGMAN_CLIENT_ID         @"aveschema"
 
 @interface SDTagManSDKAPI : NSObject
 
