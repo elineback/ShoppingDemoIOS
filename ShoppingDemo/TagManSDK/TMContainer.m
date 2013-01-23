@@ -73,7 +73,7 @@
                     navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *requestString = [[[request URL] absoluteString] stringByReplacingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-    
+
     if ([requestString hasPrefix:@"ios-log:"])
     {
         NSString* logString = [[requestString componentsSeparatedByString:@":#iOS#"] objectAtIndex:1];
@@ -97,6 +97,8 @@
         
         return NO;
     }
+
+    NSLog(@"URL REQUESTED: %@", requestString);
     
     
     
