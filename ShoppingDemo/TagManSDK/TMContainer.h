@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define TM_DEFAULT_TIMEOUT 60.0
+#define TM_DEFAULT_TIMEOUT 10.0
 
 @class TMContainer;
 @protocol TMContainerDelegate <NSObject>

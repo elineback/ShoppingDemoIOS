@@ -27,12 +27,12 @@
     {
         _webView          = [[UIWebView alloc] initWithFrame:CGRectMake(-1, -1, 1, 1)];
         _webView.delegate = self;
-
+        
         NSString *path    = [[[NSFileManager defaultManager].cachesPath stringByAppendingPathComponent:identifier] stringByAppendingPathExtension:@"html"];
         _url              = [NSURL fileURLWithPath:path];
         
         _timeOut          = TM_DEFAULT_TIMEOUT;
-
+        
         _NSLog(@"[TAGMANSDK] Created Container With Identifier : %@",identifier);
     }
     return self;
@@ -43,7 +43,7 @@
     if (_timer == nil || _timeOut)
     {
         _NSLog(@"[TAGMANSDK] Container running ...");
-
+        
         _timedOut = NO;
         _finished = NO;
         
@@ -69,18 +69,20 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView
-        shouldStartLoadWithRequest:(NSURLRequest *)request
-                    navigationType:(UIWebViewNavigationType)navigationType
+shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *requestString = [[[request URL] absoluteString] stringByReplacingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-
+    
+    NSLog(@"URL REQUESTED: %@", requestString);
+    
     if ([requestString hasPrefix:@"ios-log:"])
     {
         NSString* logString = [[requestString componentsSeparatedByString:@":#iOS#"] objectAtIndex:1];
         NSLog(@"UIWebView console: %@", logString);
         return NO;
     }
-
+    
     if ([TM_CONTAINER_RUN_COMPLETE_URL isEqualToString:[request.URL absoluteString]])
     {
         _finished = YES;
@@ -97,10 +99,6 @@
         
         return NO;
     }
-
-    NSLog(@"URL REQUESTED: %@", requestString);
-    
-    
     
     return YES;
 }
@@ -112,8 +110,20 @@
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
-    // Now we dump all cookies returned in web view
     _NSLog(@"[TAGMANSDK] UIWebView FINISHED");
+    
+    NSURL *requestURL = [[_webView request] URL];
+    NSError *error;
+    NSString *page = [NSString stringWithContentsOfURL:requestURL
+                                              encoding:NSASCIIStringEncoding
+                                                 error:&error];
+    _NSLog(@"page %@", page);
+    
+    
+    NSString *renderedHtml = [_webView stringByEvaluatingJavaScriptFromString:@"document.all[0].innerHTML"];
+    _NSLog(@"renderedHtml %@", renderedHtml);
+    
+    // Now we dump all cookies returned in web view
     [self showCookies];
 }
 
@@ -149,10 +159,13 @@
     _NSLog(@"[TAGMANSDK] Timed Out Event invoked, checking if request is still active");
     if (!_finished)
     {
+        NSString *renderedHtml = [_webView stringByEvaluatingJavaScriptFromString:@"document.all[0].innerHTML"];
+        _NSLog(@"renderedHtml %@", renderedHtml);
+        
         _NSLog(@"[TAGMANSDK] *** TIMED OUT ***");
         [_webView stopLoading];
         _timedOut = YES;
-
+        
         if (theTimer == _timer)
         {
             _timer = nil;
