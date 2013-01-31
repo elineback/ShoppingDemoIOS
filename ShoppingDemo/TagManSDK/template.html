@@ -5,6 +5,10 @@
     console = new Object();
     console.log = function(log)
     {
+        if ( log.match( /returned (true|false) after (\d+)ms for (.*)/ ) )
+        {
+            log = "SUCCESS: " + RegExp.$1 + " TIME: " + RegExp.$2; // + " URL: " + encodeURI( Regexp.$3 );
+        }
         var iframe = document.createElement("IFRAME");
         iframe.setAttribute("src", "ios-log:#iOS#" + log);
         document.documentElement.appendChild(iframe);
@@ -24,7 +28,7 @@
       //  do not edit
       var a=d.createElement(s),b=d.getElementsByTagName(s)[0];
       a.async=true;a.type='text/javascript';
-      a.src='http://sec.levexis.com/clients/'+client+'/'+siteId+'.js';
+      a.src='http://sec.levexis.com/clients/'+client+'/'+siteId+'.debug.js';
       a.tagman='st='+(+new Date())+'&c='+client+'&sid='+siteId;
       console.log( "SRC: " + a.src );
       b.parentNode.insertBefore(a,b);
