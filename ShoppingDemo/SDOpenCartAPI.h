@@ -5,7 +5,7 @@
 #ifndef SDOPENCARTAPI_H
 #define SDOPENCARTAPI_H
 
-#define OPENCART_API_HOST                 @"clothing.tagmandemo.com"
+#define OPENCART_API_HOST                 @"aveschema.tagmandemo.com"
 
 #define OPENCART_API_KEY                  @"7fe4771c008a22eb763df47d19e2c6aa"
 
